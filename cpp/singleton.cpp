@@ -59,14 +59,12 @@ private:
 class SingletonFoo2{
 public:
     static SingletonFoo2* GetInstance() {
-        static SingletonFoo2* GetInstance() {
-            // use a self-unlock lock to sync
-            // always lock when GetInstance is called
-            std::lock_guard<std::mutex> lock(m_mutex);
-            if (!m_instance)
-                m_instance = new SingletonFoo2();
-            return m_instance;
-        }
+        // use a self-unlock lock to sync
+        // always lock when GetInstance is called
+        std::lock_guard<std::mutex> lock(m_mutex);
+        if (!m_instance)
+            m_instance = new SingletonFoo2();
+        return m_instance;
     }
     ~SingletonFoo2() {
         if (m_instance) {
@@ -91,15 +89,13 @@ private:
 class SingletonFoo3{
 public:
     static SingletonFoo3* GetInstance() {
-        static SingletonFoo2* GetInstance() {
-            // if m_instance has been initialized, don't lock
-            if (!m_instance) {
-                std::lock_guard<std::mutex> lock(m_mutex);
-                if (!m_instance)
-                    m_instance = new SingletonFoo3();
-            }
-            return m_instance;
+        // if m_instance has been initialized, don't lock
+        if (!m_instance) {
+            std::lock_guard<std::mutex> lock(m_mutex);
+            if (!m_instance)
+                m_instance = new SingletonFoo3();
         }
+        return m_instance;
     }
     ~SingletonFoo3() {
         if (m_instance) {
