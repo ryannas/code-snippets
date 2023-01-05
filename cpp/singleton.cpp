@@ -3,7 +3,8 @@
 #include <mutex>
 
 // best practice after c++ 11
-// it's thread-safe, because compiler will make static variable single
+// it's thread-safe, because compiler will ensure that local static state variables are initialized when the function is called for the first time
+// see Effective C++: Case 4 for more details
 // with inheriting noncopyable class, singleton instance can not be copyed
 // Singleton::GetInstance().do_something();       // ok
 // Singleton instance = Singleton::GetInstance(); // failed, because Singleton instance cannot be copyed
